@@ -1,0 +1,131 @@
+<!doctype html>
+<html>
+    <head>
+        <title></title>
+        <link rel ="stylesheet" type="text/css" href="sty.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+		
+        
+        
+    </head>
+    <body>
+    <div class="home">
+        <div class="nav">
+            <div>Crowdsourcing web app</div>
+            <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="./about.html">About</a></li>
+            <li><a href="./services.html">Services</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        </div>
+	   <div class ="text-container"></div>
+	   
+	   
+      	<div class="form-wrap">
+			<div class="tabs">
+				<h3 class="signup-tab"><a class="active" href="#signup-tab-content">Sign Up</a></h3>
+				<h3 class="login-tab"><a href="#login-tab-content">Login</a></h3>
+			</div>
+			
+
+			<div class="tabs-content">
+				<form action="connect.php" method="post"></form>
+				<div id="signup-tab-content"  class="active">
+					<form class="signup-form" action="" method="post">
+						<input type="email" class="input" id="user_email" autocomplete="off" placeholder="Email">
+						<input type="text" class="input" id="user_name" autocomplete="off" placeholder="Username">
+						<input type="password" class="input" id="user_pass" autocomplete="off" placeholder="Password" min="8" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8  characters">
+						<input type="submit" class="button" value="Sign Up" onclick="function2(document.getElementById('user_email').value,document.getElementById('user_name').value,document.getElementById('user_pass').value);" >
+					</form>
+					<div class="help-text">
+						<p>By signing up, you agree to our</p>
+						<p><a href="#">Terms of service</a></p>
+					</div>
+				</div>
+
+				<form action="logser.php" method="post"></form>
+				<div id="login-tab-content">
+					<form class="login-form" action="" method="post">
+						<input type="text" class="input" id="user_login" autocomplete="off" placeholder="Email or Username">
+						<input type="password" class="input" id="user_passl" autocomplete="off" placeholder="Password">
+						<input type="checkbox" class="checkbox" id="remember_me">
+						<label for="remember_me">Remember me</label>
+					</form>
+					
+					<input type="submit" class="btn btn-secondary" value="Login" onclick="function1(document.getElementById('user_login').value,document.getElementById('user_passl').value);">
+					<div class="help-text">
+						<p><a href="#">Forget your password?</a></p>
+					</div>
+				</div>
+			</div>
+    	</div>
+    </div>
+
+     
+    <script src="t.js"></script>
+
+
+	<script>
+		
+		function function1(userlog,userpass) {
+				$.ajax({
+					url:"http://localhost/save/LogIn.php",
+					method:"POST",
+					data:
+					{
+						SDT:userlog,
+						SIPA:userpass
+					},
+					dataType: 'json',
+					success: function(data) { 
+						var page = data.admin;
+						if(page=="error")
+						{alert("WRONG");}
+						else{
+
+							window.location.href = page +'?username='+ userlog;
+						}
+					}
+				})
+				
+		}
+
+	</script>
+	<script>
+		
+		function function2(useremail,username,userpass) {
+
+			$.ajax({
+						url:"http://localhost/save/SignUp.php",
+						method:"POST",
+						data:
+						{
+							SDT:useremail,
+							SIPA:username,
+							WAIT:userpass
+						},
+					})
+					.done(function( msg ) {
+						alert( "Sign Up completed!" );
+					});
+
+		}
+
+		jQuery(document).ready(function($) {
+			tab = $('.tabs h3 a');
+
+			tab.on('click', function(event) {
+			event.preventDefault();
+			tab.removeClass('active');
+			$(this).addClass('active');
+
+			tab_content = $(this).attr('href');
+			$('div[id$="tab-content"]').removeClass('active');
+			$(tab_content).addClass('active');
+			});
+		});
+		
+	</script>
+	</body>
+</html>

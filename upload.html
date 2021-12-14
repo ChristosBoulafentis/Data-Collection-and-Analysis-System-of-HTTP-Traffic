@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+    <header role="banner">
+        <meta charset="UTF-8">
+        <h1>Crowdsourcing Web App</h1>
+        <link rel ="stylesheet" type="text/css" href="sty3.css">
+        <ul class="utilities">
+          <br>
+          	<li class="users"><a href="profile.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">My Account</a></li>
+      		<li class="logout warn"><a href="index.html">Log Out</a></li>
+        </ul>
+    </header>
+    
+    <body>
+        <nav role='navigation'>
+			<ul class="main">
+				<li class="Eπισκόπηση"><a href="upload.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Ανέβασμα Δεδομένων</a></li>
+				<li class="write"><a href="profile.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Διαχείριση Προφιλ</a></li>
+				<li class="comments"><a href="map.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Οπτικόποιηση δεδομένων</a></li>
+				
+			</ul>
+		</nav>
+		<main role="main">
+		<section class="panel important">
+		<form action="connection_har.php" method="POST" enctype="multipart/form-data">
+			<h2>Upload a HAR file</h2>
+			<input type="file" value="HIIIIII" id="file-selector" multiple onclick="mpampis();">
+		</form>
+		</main>
+    </body>
+
+
+
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	
+	var queryString = decodeURIComponent(window.location.search);
+		queryString = queryString.substring(1);
+		var queries = queryString.split("=");
+		var username = queries[1];
+
+		function mpampis(){
+
+			let request = new XMLHttpRequest();
+			const fileSelector = document.getElementById('file-selector');
+			fileSelector.addEventListener('change', (event) => {
+				const fileList = URL.createObjectURL(event.target.files[0]);
+				//var tmppath = URL.createObjectURL(fileList[0]);
+				
+
+				request.open('GET',fileList);
+				request.responseType = 'text'; // now we're getting a string!
+				request.send();
+
+				request.onload = function() {
+					const JSONText = request.response; // get the string from the response
+					const data = JSON.parse(JSONText); // convert it to an object
+
+
+					for(var i=0;i<data.log.entries.length;i++)
+					{
+						var sdt=data.log.entries[i].startedDateTime;
+						var serIpAd=data.log.entries[i].serverIPAddress;
+						var wait=data.log.entries[i].timings.wait;
+						var method=data.log.entries[i].request.method;
+						var url=data.log.entries[i].request.url;
+						var status=data.log.entries[i].response.status;
+						var statustxt=data.log.entries[i].response.statusText;
+						var age=null;
+						var contype=null;
+						var pragma=null;
+						var expires=null;
+						var lastm=null;
+						var host=null;
+						var cache=null;
+						var domain=null;
+
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="age"){
+								var age=data.log.entries[i].response.headers[k].value;
+							}
+						}	
+						
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="content-type"){
+								var contype=data.log.entries[i].response.headers[k].value;
+							}
+						}
+
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="pragma"){
+								var pragma=data.log.entries[i].response.headers[k].value;
+							}
+						}
+						
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="expires"){
+								var expires=data.log.entries[i].response.headers[k].value;
+							}
+						}
+
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="last-modified"){
+								var lastm=data.log.entries[i].response.headers[k].value;
+							}
+						}	
+						
+						for (var k=0;k<data.log.entries[i].request.headers.length;k++){
+							if (data.log.entries[i].request.headers[k].name=="Host"){
+								var host=data.log.entries[i].request.headers[k].value;
+							}
+						}
+
+
+						for (var k=0;k<data.log.entries[i].response.headers.length;k++){
+							if (data.log.entries[i].response.headers[k].name=="cache-control"){
+								var cache=data.log.entries[i].response.headers[k].value;
+							}
+						}
+
+						for (var k=0;k<data.log.entries[i].request.queryString.length;k++){
+							if (data.log.entries[i].request.queryString[k].name=="domain"){
+								var domain=data.log.entries[i].request.queryString[k].value;
+							}
+						}
+						
+
+						$.ajax({
+							url:"http://localhost/save/connection_har.php",
+							method:"POST",
+							data:
+							{
+								SDT:sdt,
+								SIPA:serIpAd,
+								WAIT:wait,
+								METH:method,
+								URL:url,
+								STATUS:status,
+								STATXT:statustxt,
+								AGE:age,
+								CONTYPE:contype,
+								PRAGMA:pragma,
+								EXP:expires,
+								LAM:lastm,
+								HOST:host,
+								CACHE:cache,
+								DOMAIN:domain,
+								USER:username
+							},
+						})
+						.done(function(  ) {
+						});
+				};
+			};
+		});
+	}
+	
+	</script>
+</html>

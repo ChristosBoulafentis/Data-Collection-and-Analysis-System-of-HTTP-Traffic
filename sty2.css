@@ -1,0 +1,57 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,100,200,300);
+
+
+.nav{
+    height: 100px;
+    background:rgb(63, 119, 129);
+}
+.nav div{
+    display: inline-block;
+    position: absolute;
+    left: 0;
+    padding: 15px;
+    font-size: 20px;
+    color:white;
+}
+.nav ul{
+     position: absolute;
+     right:5px;
+    
+}
+.nav ul li{
+    display: inline-block;
+
+}
+.nav ul li a {
+    color: white;
+    padding: 5px;
+}
+
+.vertical-menu {
+    width: 250px; /* Set a width if you like */
+  }
+  
+  .vertical-menu a {
+    background-color: rgb(63, 119, 129); /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 100px; /* Add some padding */
+    text-decoration: none; 
+    text-align: center;/* Remove underline from links */
+  }
+  
+  .vertical-menu a:hover {
+    background-color: rgb(63, 119, 129); /* Dark grey background on mouse-over */
+  }
+  
+  .vertical-menu a.active {
+    background-color: rgb(63, 119, 129); /* Add a green color to the "active/current" link */
+    color: black;
+  }
+
+
+.home {
+    background-color:#19597e;
+    background-size:cover;
+    height: 170vh;
+}

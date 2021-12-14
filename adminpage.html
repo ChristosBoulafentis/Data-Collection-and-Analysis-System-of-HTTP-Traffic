@@ -1,0 +1,43 @@
+  <header role="banner">
+    <meta charset="UTF-8">
+    <h1>Crowdsourcing Web App</h1>
+    <link rel ="stylesheet" type="text/css" href="sty3.css">
+    <ul class="utilities">
+      <br>
+      <li class="users"><a href="profile.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">My Account</a></li>
+      <li class="logout warn"><a href="index.html">Log Out</a></li>
+    </ul>
+  </header>
+  
+  <nav role='navigation'>
+    <ul class="main">
+      <li class="Eπισκόπηση"><a href="Admin-Stats.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Απεικόνιση Βασικών πληροφοριών</a></li>
+      <li class="write"><a href="#">Ανάλυση χρόνων απόκρισης σε αιτήσεις</a></li>
+      <li class="comments"><a href="#">Ανάλύση Κεφαλίδων http</a></li>
+      <li class="users"><a href="adminMap.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Οπτικοποιήση Δεδομένων</a></li>
+      
+    </ul>
+  </nav>
+  
+  <main role="main">
+    <section class="panel important">
+      <img src="icon.jpg" alt="">
+    </section>
+      <style>
+        img {
+          transform: scale(1.25);
+          position: relative;
+          left: 80px;
+          
+          height: 100%
+        }
+      </style>
+  </main>
+
+  <script>
+    var queryString = decodeURIComponent(window.location.search);
+    queryString = queryString.substring(1);
+    var queries = queryString.split("=");
+    var username = queries[1];
+    console.log(username);
+  </script>

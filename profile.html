@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<html>
+  <header role="banner">
+    <meta charset="UTF-8">
+    <h1>Crowdsourcing Web App</h1>
+    <link rel ="stylesheet" type="text/css" href="sty3.css">
+    <ul class="utilities">
+      <br>
+      <li class="users"><a href="profile.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">My Account</a></li>
+      <li class="logout warn"><a href="index.html">Log Out</a></li>
+    </ul>
+  </header>
+  
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+      var queryString = decodeURIComponent(window.location.search);
+      queryString = queryString.substring(1);
+      var queries = queryString.split("=");
+      var username = queries[1];
+      //console.log(username);
+
+      $.ajax({
+          url:"http://localhost/save/getInfo.php",
+          method:"POST",
+          data:
+              {
+                USER:username
+              },
+          dataType: 'json',
+          success: function(data) { 
+            console.log(data);
+            document.getElementById("usermail").innerHTML = data[0];
+            document.getElementById("userpass").innerHTML = data[1];
+          }
+      })
+
+      $(document).ready(
+        function()
+        {
+            document.getElementById("username").innerHTML = username;
+        }
+        );
+
+
+      function changePass(newpass){
+
+        $.ajax({
+          url:"http://localhost/save/changePass.php",
+          method:"POST",
+          data:
+              {
+                PASS:newpass,
+                USER:username
+              }
+      })
+
+      }
+
+      function reset(){
+        document.getElementById('pass').value = null;
+      }
+  
+    </script>
+  </head>
+
+  
+  <body>
+    <nav role='navigation'>
+			<ul class="main">
+				<li class="Eπισκόπηση"><a href="upload.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Ανέβασμα Δεδομένων</a></li>
+				<li class="write"><a href="profile.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Διαχείριση Προφιλ</a></li>
+				<li class="comments"><a href="map.html" onclick="location.href=this.href+'?username='+ queries[1];return false;">Οπτικόποιηση δεδομένων</a></li>
+				
+			</ul>
+		</nav>
+    <main role="main">
+		<section class="panel important">
+     <div class="container">
+        <h1>Personal info</h1>
+        <hr>
+        <div class="row">
+        </div>
+      </div>
+        
+    <div class="col-md-9 personal-info">
+            
+      <form class="form-horizontal" role="form"></form>
+    </div>
+
+      <div class="form-group">
+        
+        <div class="col-lg-8">
+          Email: <span id= "usermail"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        
+        <div class="col-lg-8">
+          Name: <span id= "username"></span>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        
+        <div class="col-md-8">
+          Password: <span id= "userpass"></span>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-8">
+          Change Password:<input class="form-control" id="pass" type="password">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-3 control-label"></label>
+        <div class="col-md-8">
+          <input type="submit" class="btn btn-primary" value="Save Changes" onclick="changePass(document.getElementById('pass').value)">
+          <input type="reset" class="btn btn-secondary" value="Cancel" onclick="reset()">
+        </div>
+      </div>
+      </form>
+    </div>
+  </body>
+
+</html>
+
+
+<hr>
